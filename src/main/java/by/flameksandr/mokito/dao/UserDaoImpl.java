@@ -5,7 +5,6 @@ import by.flameksandr.mokito.model.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
@@ -24,5 +23,10 @@ public class UserDaoImpl implements UserDao {
                 .filter(user -> user.getUsername().equals(username))
                 .findAny()
                 .orElse(null);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return users;
     }
 }

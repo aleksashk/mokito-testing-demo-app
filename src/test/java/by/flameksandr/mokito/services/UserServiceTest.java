@@ -32,4 +32,13 @@ class UserServiceTest {
         boolean userExists = userService.checkUserPresence(new User("aleks@gmail.com"));
         Assertions.assertTrue(userExists);
     }
+
+    @Test
+    void checkUserPresence_Should_Return_Null() throws Exception {
+        given(dao.getUserByUsername("john@gmail.com"))
+                .willReturn(null);
+
+        boolean userExists = userService.checkUserPresence(new User("john@gmail.com"));
+        Assertions.assertFalse(userExists);
+    }
 }

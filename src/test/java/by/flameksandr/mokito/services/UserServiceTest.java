@@ -9,11 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -35,6 +34,9 @@ class UserServiceTest {
 
         boolean userExists = userService.checkUserPresence(new User("aleks@gmail.com"));
         Assertions.assertTrue(userExists);
+        //verify
+
+        verify(dao).getUserByUsername("aleks@gmail.com");
     }
 
     @Test
@@ -51,9 +53,7 @@ class UserServiceTest {
         given(dao.getUserByUsername(anyString()))
                 .willThrow(Exception.class);
 
-        assertThrows(Exception.class, () -> {
-            userService.checkUserPresence(new User("asdf@gmail.com"));
-        });
+        assertThrows(Exception.class, () -> userService.checkUserPresence(new User("asdf@gmail.com")));
     }
 
 

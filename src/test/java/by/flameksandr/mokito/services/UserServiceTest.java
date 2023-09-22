@@ -5,10 +5,12 @@ import by.flameksandr.mokito.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -54,6 +56,20 @@ class UserServiceTest {
                 .willThrow(Exception.class);
 
         assertThrows(Exception.class, () -> userService.checkUserPresence(new User("asdf@gmail.com")));
+    }
+
+    @Test
+    public void testCaptor() throws Exception {
+        given(dao.getUserByUsername(anyString()))
+                .willReturn(new User("aleks@gmail.com"));
+        boolean b = userService.checkUserPresence(new User("aleks@gmail.com"));
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+
+        verify(dao).getUserByUsername(captor.capture());
+        String argument = captor.getValue();
+        assertEquals(argument, "aleks@gmail.com");
+
     }
 
 

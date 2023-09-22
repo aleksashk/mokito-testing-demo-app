@@ -4,8 +4,7 @@ import by.flameksandr.mokito.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserDaoTest {
 
@@ -22,5 +21,10 @@ class UserDaoTest {
         assertNotNull(aleks);
         assertEquals(aleks.getUsername(), "aleks@gmail.com");
 
+    }
+    @Test
+    void getUserByUsername_Null_User() throws Exception {
+        User gregor = dao.getUserByUsername("gregor@gmail.com");
+        assertNull(gregor);
     }
 }
